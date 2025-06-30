@@ -24,7 +24,7 @@ const buttonVariants = cva(
         default: "px-5 py-3 text-base ",
         small: "h-9  px-3",
         large: "h-11  px-8",
-        icon: "h-12 w-12 p-2 ",
+        icon: "h-13 w-13 p-2 ",
         "icon-large": "h-12 w-12 p-3 rounded-2xl",
       },
     },
@@ -49,7 +49,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
 
     const finalSize = size || (!hasText ? "icon" : "default");
 
-    const iconSizeClass = "w-4 h-4";
+    const iconSizeClass = "w-5 h-5";
 
     return (
       <button
