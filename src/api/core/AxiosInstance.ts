@@ -3,8 +3,14 @@ import axios, {
   AxiosRequestConfig,
   AxiosResponse,
   AxiosError,
+  AxiosResponseHeaders,
+  RawAxiosResponseHeaders,
 } from "axios";
 import Cookies from "js-cookie";
+
+interface ApiErrorData {
+  message?: string;
+}
 
 export interface ApiResponse<T> {
   success: boolean;
@@ -14,7 +20,7 @@ export interface ApiResponse<T> {
 
 export interface BlobResponse {
   data: Blob;
-  headers: any;
+  headers: RawAxiosResponseHeaders | AxiosResponseHeaders;
   status: number;
 }
 
@@ -86,7 +92,10 @@ class ApiCore {
 
     if (typeof window !== "undefined") {
       const currentPath = window.location.pathname;
-      window.location.href = `/login?redirect=${currentPath}`;
+      const redirectParam = new URLSearchParams({
+        redirect: currentPath,
+      }).toString();
+      window.location.href = `/login?${redirectParam}`;
     }
   }
 
@@ -100,8 +109,9 @@ class ApiCore {
 
   private handleApiError(error: unknown): Error {
     if (axios.isAxiosError(error)) {
+      const errorData = error.response?.data as ApiErrorData | undefined;
       const errorMessage =
-        (error.response?.data as { message?: string })?.message ||
+        errorData?.message ||
         error.message ||
         "An unexpected API error occurred";
       return new Error(errorMessage);
@@ -185,7 +195,7 @@ class ApiCore {
     config?: AxiosRequestConfig
   ): Promise<BlobResponse> {
     try {
-      const response = await this.client.get(url, {
+      const response = await this.client.get<Blob>(url, {
         ...config,
         responseType: "blob",
       });

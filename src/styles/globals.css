@@ -1,7 +1,9 @@
 @import "tailwindcss";
 
-:root {
+@theme {
   --font-poppins: "Poppins", sans-serif;
+
+  --color-white-default:#F9F9F9
 
   /* == PRIMARY COLORS == */
   --color-primary-100: #fbe8e9;
@@ -69,4 +71,8 @@
     --font-size-7xl: 72px / 72px;
     --font-size-8xl: 96px / 96px;
   }
+}
+
+.mycontainer {
+  @apply container mx-auto;
 }
