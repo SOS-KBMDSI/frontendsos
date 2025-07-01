@@ -7,6 +7,7 @@ import axios, {
   RawAxiosResponseHeaders,
 } from "axios";
 
+// Interface ini bisa dipindahkan ke file tipe terpusat
 export interface ApiResponse<T> {
   success: boolean;
   message: string;
