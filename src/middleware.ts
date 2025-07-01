@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { jwtVerify } from "jose";
 
-const JWT_SECRET = new TextEncoder().encode(process.env.JWT_SECRET);
+const JWT_SECRET = new TextEncoder().encode(process.env.JWT_SECRET as string);
 
 async function verifyToken(token: string) {
   try {
@@ -15,46 +15,23 @@ async function verifyToken(token: string) {
 
 export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
-  const tokenCookie = request.cookies.get("auth_session")?.value;
+  const token = request.cookies.get("auth_session")?.value;
+  const payload = token ? await verifyToken(token) : null;
 
-  const publicPaths = ["/login", "/register", "/home", "/ds"];
+  // const mabaPaths: string[] = []; //nanti aja ini wak isinya
+  const adminPath = "/admin";
+  const loginPath = "/login";
 
-  if (tokenCookie && publicPaths.some((path) => pathname.startsWith(path))) {
-    const payload = await verifyToken(tokenCookie);
+  if (pathname.startsWith(adminPath)) {
+    if (!payload || payload.Role !== "admin") {
+      const url = new URL(loginPath, request.url);
+      url.searchParams.set("error", "unauthorized");
+      return NextResponse.redirect(url);
+    }
+  }
+
+  if (pathname.startsWith(loginPath)) {
     if (payload) {
-      const userRole = payload.Role as string;
-      const url = userRole === "admin" ? "/admin/dashboard" : "/";
-      return NextResponse.redirect(new URL(url, request.url));
-    }
-  }
-
-  if (!tokenCookie) {
-    if (publicPaths.some((path) => pathname.startsWith(path))) {
-      return NextResponse.next();
-    }
-    if (pathname.startsWith("/admin")) {
-      return NextResponse.redirect(new URL("/login", request.url));
-    }
-    return NextResponse.redirect(new URL("/login", request.url));
-  }
-
-  const payload = await verifyToken(tokenCookie);
-
-  if (!payload) {
-    const response = NextResponse.redirect(new URL("/login", request.url));
-    response.cookies.delete("auth_session");
-    return response;
-  }
-
-  const userRole = payload.Role as string;
-  const isAdminRoute = pathname.startsWith("/admin");
-
-  if (userRole === "admin") {
-    if (!isAdminRoute) {
-      return NextResponse.redirect(new URL("/admin/dashboard", request.url));
-    }
-  } else {
-    if (isAdminRoute) {
       return NextResponse.redirect(new URL("/", request.url));
     }
   }

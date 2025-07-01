@@ -16,8 +16,16 @@ export function useLoginForm() {
     setError(null);
 
     try {
-      await authService.login({ emailornim, password });
-      router.push("/admin/dashboard");
+      const response = await authService.login({ emailornim, password });
+
+      const redirectUrl = response.redirectUrl;
+      console.log(redirectUrl);
+
+      if (redirectUrl) {
+        router.push(redirectUrl);
+      } else {
+        router.push("/");
+      }
     } catch (err: unknown) {
       console.error("Login failed:", err);
       let message = "Login gagal. Periksa kembali email dan password Anda.";

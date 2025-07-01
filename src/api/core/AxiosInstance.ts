@@ -48,8 +48,6 @@ class ApiCore {
       (error: AxiosError) => {
         if (error.response?.status === 401) {
           if (typeof window !== "undefined") {
-            // Pertimbangkan untuk memanggil service logout di sini
-            // agar lebih terpusat.
             window.location.href = "/login";
           }
         }
@@ -58,7 +56,6 @@ class ApiCore {
     );
   }
 
-  // Metode get, post, dll. tidak berubah
   public async get<T>(
     url: string,
     config?: AxiosRequestConfig
