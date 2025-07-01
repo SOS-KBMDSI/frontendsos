@@ -2,9 +2,9 @@ import { apiClient, ApiResponse } from "../core/AxiosInstance";
 import axios from "axios";
 
 export interface AuthProfile {
-  NIM: string;
+  nim: string;
   full_name: string;
-  Nama: string;
+  nama: string;
   faculty: string;
   study_program: string;
   siakad_photo_url: string;

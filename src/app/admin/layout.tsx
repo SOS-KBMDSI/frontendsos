@@ -1,6 +1,6 @@
 "use client";
 
-import Sidebar from "@/shared/components/ui/admin/sidebar/Sidebar";
+import Sidebar from "@/shared/components/admin/sidebar/Sidebar";
 import { AuthProvider } from "@/shared/context/AuthContext";
 
 export default function AdminLayout({

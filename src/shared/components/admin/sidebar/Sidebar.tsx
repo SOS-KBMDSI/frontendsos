@@ -21,7 +21,7 @@ const Sidebar = () => {
         <div className="text-center mb-10">
           <h2 className="text-lg font-bold">Admin Panel</h2>
           <p className="text-sm text-gray-600">Selamat Datang,</p>
-          <p className="font-semibold">{user?.Nama}</p>
+          <p className="font-semibold">{user?.nama}</p>
         </div>
         <nav>
           <ul>

@@ -33,7 +33,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [isLoading, setIsLoading] = useState(true);
   const mountedRef = useRef(true);
   const initializationRef = useRef(false);
-
   const fetchCurrentUser = useCallback(
     async (forceRefresh = false): Promise<void> => {
       if (!mountedRef.current) return;

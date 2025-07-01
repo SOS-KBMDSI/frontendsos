@@ -1,4 +1,5 @@
 import { Button } from "@/shared/components/ui/Button";
+import { Input } from "@/shared/components/ui/Input";
 import React from "react";
 
 interface LoginFormProps {
@@ -21,39 +22,44 @@ export default function LoginForm({
   handleSubmit,
 }: LoginFormProps) {
   return (
-    <div className="mx-auto my-20 max-w-sm rounded-xl border bg-white shadow-lg">
-      <div className="p-6">
-        <h1 className="text-2xl font-bold text-center">Login dulu ya wak</h1>
-        <p className="text-center text-gray-500 text-sm mt-1 mb-6">
-          Silakan masuk untuk melanjutkan
-        </p>
+    <div className="mx-auto h-fit z-20 w-full md:max-w-md max-w-sm lg:max-w-lg xl:max-w-2xl rounded-3xl shadow-lg bg-white ">
+      <div className="p-6 md:p-14">
         <form onSubmit={handleSubmit}>
-          <div className="grid w-full items-center gap-4">
+          <div className="grid w-full items-center gap-7 md:gap-8 mb-10 md:mb-20">
             <div className="flex flex-col space-y-2">
-              <label htmlFor="emailornim">Email atau NIM</label>
-              <input
+              <label
+                className="text-base text-primary-500"
+                htmlFor="emailornim"
+              >
+                Email atau NIM
+              </label>
+              <Input
                 id="emailornim"
                 type="text"
-                placeholder="Masukkan email atau NIM Anda"
+                placeholder="Email Atau NIM"
                 value={emailornim}
                 onChange={(e) => setEmailornim(e.target.value)}
                 required
-                disabled={isLoading}
+                variant={"default"}
+                state={"default"}
               />
             </div>
             <div className="flex flex-col space-y-2">
-              <label htmlFor="password">Password</label>
-              <input
+              <label className="text-base text-primary-500" htmlFor="password">
+                Kata Sandi
+              </label>
+              <Input
                 id="password"
                 type="password"
-                placeholder="Masukkan password Anda"
+                placeholder="Kata Sandi Siam"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 required
                 disabled={isLoading}
               />
             </div>
-
+          </div>
+          <div>
             {error && <p className="text-sm text-red-600">{error}</p>}
 
             <Button type="submit" disabled={isLoading} className="w-full mt-2">
