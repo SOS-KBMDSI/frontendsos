@@ -15,6 +15,7 @@ export interface AuthProfile {
 interface LoginResponse {
   message: string;
   profile: AuthProfile;
+  redirectUrl: string;
 }
 
 class AuthService {
