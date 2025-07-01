@@ -8,7 +8,7 @@ export default function LoginPageContainer() {
 
   return (
     <main className="mycontainer">
-      <LoginForm {...formLogic} />;
+      <LoginForm {...formLogic} />
     </main>
   );
 }

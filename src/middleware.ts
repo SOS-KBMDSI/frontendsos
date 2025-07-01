@@ -17,7 +17,7 @@ export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
   const tokenCookie = request.cookies.get("auth_session")?.value;
 
-  const publicPaths = ["/login", "/register", "/home"];
+  const publicPaths = ["/login", "/register", "/home", "/ds"];
 
   if (tokenCookie && publicPaths.some((path) => pathname.startsWith(path))) {
     const payload = await verifyToken(tokenCookie);
