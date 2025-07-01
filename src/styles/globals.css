@@ -35,6 +35,14 @@
   --color-bg-secondary: #ece5db;
   --color-bg-tertiary: #e8e5e9;
 
+  /* == Black Colors */
+  --color-black : #383838;
+  --color-black-50 : rgba(56, 56, 56, 0.50);
+
+  /* Alert Colors */
+  --color-danger: #EA3333;
+  --color-success: #009933;
+
   --font-family-poppins: "Poppins", sans-serif;
 
   /* == TIPOGRAFI SETTINGS == */
