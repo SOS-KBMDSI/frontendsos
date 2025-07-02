@@ -1,7 +1,12 @@
+import DashboardContainer from "@/feature/(admin)/dashboard/container/DashboardContainer";
 import React from "react";
 
 const page = () => {
-  return <div>Tralalala Tralololo</div>;
+  return (
+    <>
+      <DashboardContainer />
+    </>
+  );
 };
 
 export default page;
