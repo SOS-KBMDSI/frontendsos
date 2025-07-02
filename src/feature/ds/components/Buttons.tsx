@@ -4,7 +4,7 @@ import React from "react";
 const Buttons = () => {
   return (
     <div className=" h-full  ">
-      <h5 className="font-bold text-4xl">Button</h5>
+      <h5 className="font-bold text-4xl mb-4">Button</h5>
       <div className="border-red-300 w-fit space-y-4 border-1 p-4">
         <div className="flex gap-4 items-center">
           <h5>Primary:</h5>
