@@ -21,7 +21,7 @@ const Sidebar = () => {
   };
 
   return (
-    <div className="border-r bg-white fixed border-gray-200 shadow-xl flex flex-col px-2 sm:px-3 md:px-5 py-4 sm:py-5 md:py-7 w-1/5 lg:w-1/4 h-screen">
+    <div className="border-r bg-white fixed border-gray-200 shadow-xl flex flex-col px-2 sm:px-3 md:px-5 py-4 xl:w-1/5 sm:py-5 md:py-7 w-1/5 lg:w-1/4 h-screen">
       <div className="flex items-center gap-2 sm:gap-3">
         <div className="bg-gray-500 w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 rounded-xl"></div>
         <p className="text-xs sm:text-sm w-3/4 font-semibold">

@@ -13,7 +13,7 @@ export default function AdminLayout({
       <AuthProvider>
         <Sidebar />
       </AuthProvider>
-      <section className="right-0 px-24 py-24 w-4/5 lg:w-3/4 absolute bg-[#E9E9E9CC]  min-h-screen overflow-y-auto">
+      <section className="right-0 px-24 py-24 w-4/5 xl:w-4/5 lg:w-3/4 absolute bg-[#E9E9E9CC]  min-h-screen overflow-y-auto">
         {children}
       </section>
     </main>
