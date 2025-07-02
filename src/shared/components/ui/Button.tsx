@@ -38,7 +38,7 @@ const buttonVariants = cva(
 interface ButtonProps
   extends ButtonHTMLAttributes<HTMLButtonElement>,
     VariantProps<typeof buttonVariants> {
-  arrow?: "both" | "top" | "bottom";
+  arrow?: "both" | "top" | "bottom" | "left" | "right";
   children?: ReactNode;
 }
 
@@ -63,11 +63,17 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
         {arrow === "top" && (
           <ArrowUp className={cn(iconSizeClass, hasText && "mb-2")} />
         )}
+        {arrow === "left" && (
+          <ArrowLeft className={cn(iconSizeClass, hasText && "mr-2")} />
+        )}
         {arrow === "both" && (
           <ArrowLeft className={cn(iconSizeClass, hasText && "mr-2")} />
         )}
         {children}
         {arrow === "both" && (
+          <ArrowRight className={cn(iconSizeClass, hasText && "ml-2")} />
+        )}
+        {arrow === "right" && (
           <ArrowRight className={cn(iconSizeClass, hasText && "ml-2")} />
         )}
         {arrow === "bottom" && (
