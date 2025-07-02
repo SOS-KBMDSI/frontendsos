@@ -6,9 +6,9 @@ import { motion } from "framer-motion";
 
 const Ornament = () => {
   return (
-    <div className="w-screen h-screen border-2    absolute">
+    <div className="w-screen h-screen absolute z-10 pointer-events-none select-none">
       <motion.div
-        className="absolute w-full xl:max-w-3xl lg:max-w-lg md:max-w-md max-w-xl opacity-25 -right-40 -top-60  md:-right-50 md:-top-[30rem]"
+        className="absolute w-full xl:max-w-3xl lg:max-w-lg md:max-w-md max-w-xl opacity-25 -right-40 -top-60 md:-right-50 md:-top-[30rem]"
         animate={{ rotate: 360 }}
         transition={{
           repeat: Infinity,
@@ -16,7 +16,7 @@ const Ornament = () => {
           ease: "linear",
         }}
       >
-        <Image src={Kompas} alt="kompas" />
+        <Image src={Kompas} alt="kompas" draggable={false} />
       </motion.div>
 
       <motion.div
@@ -28,10 +28,11 @@ const Ornament = () => {
           ease: "linear",
         }}
       >
-        <Image src={Kompas} alt="kompas" />
+        <Image src={Kompas} alt="kompas" draggable={false} />
       </motion.div>
+
       <div className="absolute left-40 top-30">
-        <Image src={Bintang} alt="bintang" />
+        <Image src={Bintang} alt="bintang" draggable={false} />
       </div>
     </div>
   );

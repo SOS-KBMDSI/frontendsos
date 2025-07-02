@@ -10,7 +10,7 @@ export default function LoginPageContainer() {
   const formLogic = useLoginForm();
 
   return (
-    <main className="bg-secondary-300 w-screen overflow-hidden h-screen ">
+    <main className=" w-screen overflow-hidden h-screen bg-login ">
       <div className="w-screen h-screen mycontainer flex items-center relative justify-center">
         <LoginForm {...formLogic} />
         <Ornament />

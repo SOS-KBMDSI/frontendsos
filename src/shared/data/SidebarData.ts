@@ -8,7 +8,6 @@ import {
   LucideIcon,
 } from "lucide-react";
 
-// Interface tetap sama
 export interface SidebarMenuItem {
   id: number;
   label: string;

@@ -84,3 +84,13 @@
 .mycontainer {
   @apply container mx-auto px-5;
 }
+
+
+.bg-login{
+  background: url("../assets/login/bg-login.svg");
+  @apply bg-cover bg-secondary-500
+}
+
+.bg-navbar {
+  background: linear-gradient(90deg, #9C0221 0%, rgba(156, 2, 33, 0.90) 24.51%, #9C0221 50.21%, rgba(156, 2, 33, 0.90) 77.2%, #9C0221 100%);
+}
