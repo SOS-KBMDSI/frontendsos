@@ -40,6 +40,13 @@
 
   --color-taskCard: #E4E4E4;
   --color-hoverTask: #BDBDBD;
+  /* == Black Colors */
+  --color-black : #383838;
+  --color-black-50 : rgba(56, 56, 56, 0.50);
+
+  /* Alert Colors */
+  --color-danger: #EA3333;
+  --color-success: #009933;
 
   --font-family-poppins: "Poppins", sans-serif;
 
@@ -84,7 +91,13 @@
 }
 
 .mycontainer {
-  @apply container mx-auto;
+  @apply container mx-auto px-5;
+}
+
+
+.bg-login{
+  background: url("../assets/login/bg-login.svg");
+  @apply bg-cover bg-secondary-500
 }
 
 
@@ -104,4 +117,6 @@
   to {
     height: 0px;
   }
+.bg-navbar {
+  background: linear-gradient(90deg, #9C0221 0%, rgba(156, 2, 33, 0.90) 24.51%, #9C0221 50.21%, rgba(156, 2, 33, 0.90) 77.2%, #9C0221 100%);
 }

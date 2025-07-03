@@ -7,7 +7,6 @@ import axios, {
   RawAxiosResponseHeaders,
 } from "axios";
 
-// Interface ini bisa dipindahkan ke file tipe terpusat
 export interface ApiResponse<T> {
   success: boolean;
   message: string;
@@ -27,7 +26,7 @@ class ApiCore {
   private constructor() {
     this.client = axios.create({
       baseURL: "/api/proxy",
-      timeout: 30000,
+      timeout: 400000,
       headers: {
         "Content-Type": "application/json",
       },
@@ -48,8 +47,6 @@ class ApiCore {
       (error: AxiosError) => {
         if (error.response?.status === 401) {
           if (typeof window !== "undefined") {
-            // Pertimbangkan untuk memanggil service logout di sini
-            // agar lebih terpusat.
             window.location.href = "/login";
           }
         }
@@ -58,7 +55,6 @@ class ApiCore {
     );
   }
 
-  // Metode get, post, dll. tidak berubah
   public async get<T>(
     url: string,
     config?: AxiosRequestConfig

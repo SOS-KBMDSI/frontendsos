@@ -1,6 +1,6 @@
 "use client";
 
-import { AuthProfile, authService } from "@/api/services/auth";
+import { usePathname } from "next/navigation";
 import {
   createContext,
   useState,
@@ -9,6 +9,7 @@ import {
   useRef,
   useCallback,
 } from "react";
+import { AuthProfile, authService } from "@/api/services/auth";
 
 interface AuthContextType {
   user: AuthProfile | null;
@@ -24,24 +25,37 @@ export const AuthContext = createContext<AuthContextType | undefined>(
 let authPromise: Promise<AuthProfile | null> | null = null;
 let authCache: { data: AuthProfile | null; timestamp: number } | null = null;
 const CACHE_DURATION = 5 * 60 * 1000;
-const MIN_REFETCH_INTERVAL = 1000;
+const MIN_REFETCH_INTERVAL = 2000;
+const MAX_RETRY_ATTEMPTS = 3;
+const RETRY_DELAY = 1000;
 
 let lastRefetchTime = 0;
+
+const delay = (ms: number): Promise<void> =>
+  new Promise((resolve) => setTimeout(resolve, ms));
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<AuthProfile | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const mountedRef = useRef(true);
   const initializationRef = useRef(false);
+  const requestInProgressRef = useRef(false);
+
+  const pathname = usePathname();
 
   const fetchCurrentUser = useCallback(
     async (forceRefresh = false): Promise<void> => {
       if (!mountedRef.current) return;
 
+      if (requestInProgressRef.current && !forceRefresh) return;
+
+      const now = Date.now();
+      if (!forceRefresh && now - lastRefetchTime < MIN_REFETCH_INTERVAL) return;
+
       if (
         !forceRefresh &&
         authCache &&
-        Date.now() - authCache.timestamp < CACHE_DURATION
+        now - authCache.timestamp < CACHE_DURATION
       ) {
         if (mountedRef.current) {
           setUser(authCache.data);
@@ -50,16 +64,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         return;
       }
 
-      if (authPromise) {
+      if (authPromise && !forceRefresh) {
         try {
           const result = await authPromise;
           if (mountedRef.current) {
             setUser(result);
             setIsLoading(false);
           }
-        } catch (error) {
+        } catch {
           if (mountedRef.current) {
-            console.error("Auth check failed:", error);
             setUser(null);
             setIsLoading(false);
           }
@@ -67,26 +80,50 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         return;
       }
 
+      requestInProgressRef.current = true;
+      lastRefetchTime = now;
+
       authPromise = (async (): Promise<AuthProfile | null> => {
-        try {
-          const response = await authService.getMe();
-          const userData = response?.data || null;
+        let attempts = 0;
 
-          authCache = {
-            data: userData,
-            timestamp: Date.now(),
-          };
+        while (attempts < MAX_RETRY_ATTEMPTS) {
+          try {
+            const response = await authService.getMe();
+            const userData: AuthProfile = response?.data;
 
-          return userData;
-        } catch (error) {
-          console.error("Auth check failed:", error);
+            authCache = {
+              data: userData,
+              timestamp: Date.now(),
+            };
 
-          authCache = null;
+            return userData;
+          } catch (error) {
+            const axiosError = error as {
+              response?: { status?: number };
+            };
 
-          return null;
-        } finally {
-          authPromise = null;
+            attempts++;
+
+            if (axiosError?.response?.status === 429) {
+              if (attempts < MAX_RETRY_ATTEMPTS) {
+                await delay(RETRY_DELAY * attempts);
+                continue;
+              }
+            }
+
+            if (
+              attempts >= MAX_RETRY_ATTEMPTS ||
+              axiosError?.response?.status === 401
+            ) {
+              authCache = { data: null, timestamp: Date.now() };
+              return null;
+            }
+
+            await delay(RETRY_DELAY);
+          }
         }
+
+        return null;
       })();
 
       try {
@@ -94,11 +131,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         if (mountedRef.current) {
           setUser(result);
         }
-      } catch {
-        if (mountedRef.current) {
-          setUser(null);
-        }
       } finally {
+        authPromise = null;
+        requestInProgressRef.current = false;
         if (mountedRef.current) {
           setIsLoading(false);
         }
@@ -108,6 +143,17 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   );
 
   useEffect(() => {
+    const publicPaths = ["/login", "/register", "/", "/about", "/contact"];
+    if (
+      publicPaths.some(
+        (path) => pathname === path || pathname.startsWith(path + "/")
+      )
+    ) {
+      setIsLoading(false);
+      setUser(null);
+      return;
+    }
+
     if (initializationRef.current) return;
 
     initializationRef.current = true;
@@ -118,17 +164,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     return () => {
       mountedRef.current = false;
     };
-  }, [fetchCurrentUser]);
+  }, [pathname]);
 
   const refetch = useCallback(async (): Promise<void> => {
     if (!mountedRef.current) return;
 
     const now = Date.now();
-    if (now - lastRefetchTime < MIN_REFETCH_INTERVAL) {
-      console.warn("Refetch called too frequently, ignoring");
-      return;
-    }
-    lastRefetchTime = now;
+    if (now - lastRefetchTime < MIN_REFETCH_INTERVAL) return;
 
     setIsLoading(true);
 
@@ -138,7 +180,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     await fetchCurrentUser(true);
   }, [fetchCurrentUser]);
 
-  const contextValue = {
+  const contextValue: AuthContextType = {
     user,
     isAuthenticated: !!user,
     isLoading,
