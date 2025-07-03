@@ -6,6 +6,7 @@ import Dropdowns from "../components/Dropdowns";
 import Badges from "../components/Badges";
 import ProgressIndicators from "../components/ProgressIndicators";
 import TaskCards from "../components/TaskCards";
+import Inputs from "../components/Inputs";
 
 const DesignContainer = () => {
   return (
@@ -18,6 +19,7 @@ const DesignContainer = () => {
       <ProgressIndicators />
       <Badges />
       <TaskCards />
+      <Inputs />
     </main>
   );
 };
