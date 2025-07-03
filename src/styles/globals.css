@@ -28,13 +28,18 @@
   --color-secondary-900: #747069;
 
   /* == Default Colors == */
-  --color-default-dark: #3b3838;
+  --color-default-dark: #383838;
   --color-default-light: #f9f9f9;
 
   --color-bg-primary: #a61b37;
   --color-bg-secondary: #ece5db;
   --color-bg-tertiary: #e8e5e9;
 
+  --color-badgeOverdue: #CF2A4A;
+  --color-badgeSuccess: #4CAF50;
+
+  --color-taskCard: #E4E4E4;
+  --color-hoverTask: #BDBDBD;
   /* == Black Colors */
   --color-black : #383838;
   --color-black-50 : rgba(56, 56, 56, 0.50);
@@ -63,6 +68,10 @@
   --font-size-5xl: 36px / 40px;
   --font-size-6xl: 48px / 48px;
   --font-size-7xl: 60px / 60px;
+
+    /* == ANIMATIONS == */
+  --animation-accordion-down: "accordion-down 0.2s ease-out";
+  --animation-accordion-up: "accordion-up 0.2s ease-out";
 }
 
 @media (min-width: 1024px) {
@@ -91,6 +100,23 @@
   @apply bg-cover bg-secondary-500
 }
 
+
+@keyframes accordion-down {
+  from {
+    height: 0px;
+  }
+  to {
+    height: var(--radix-accordion-content-height);
+  }
+}
+
+@keyframes accordion-up {
+  from {
+    height: var(--radix-accordion-content-height);
+  }
+  to {
+    height: 0px;
+  }
 .bg-navbar {
   background: linear-gradient(90deg, #9C0221 0%, rgba(156, 2, 33, 0.90) 24.51%, #9C0221 50.21%, rgba(156, 2, 33, 0.90) 77.2%, #9C0221 100%);
 }
