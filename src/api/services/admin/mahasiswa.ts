@@ -33,6 +33,7 @@ export interface MahasiswaDetail {
   alergi_obat: string;
   alergi_makanan: string;
   kelompok: Kelompok;
+  kelamin: string;
 }
 
 class MahasiswaService {
@@ -58,6 +59,26 @@ class MahasiswaService {
         );
       }
       throw new Error("Terjadi kesalahan yang tidak diketahui.");
+    }
+  }
+
+  async getMahasiswaById(
+    id: string | number
+  ): Promise<ApiResponse<MahasiswaDetail>> {
+    try {
+      const response = await apiClient.get<MahasiswaDetail>(
+        `/api/mahasiswa/search/${id}`
+      );
+      return response;
+    } catch (error) {
+      if (error instanceof Error) {
+        throw new Error(
+          `Gagal mengambil data mahasiswa by ID: ${error.message}`
+        );
+      }
+      throw new Error(
+        "Terjadi kesalahan yang tidak diketahui saat mengambil data by ID."
+      );
     }
   }
 }

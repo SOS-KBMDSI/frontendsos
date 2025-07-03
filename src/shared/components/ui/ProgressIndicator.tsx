@@ -1,24 +1,22 @@
 import React from "react";
-import { cva, type VariantProps } from "class-variance-authority";
+import { cva } from "class-variance-authority";
 
 import { cn } from "@/shared/utils/cn";
 
-const dotVariants = cva(
-  "shrink-0 rounded-full transition-all duration-300",
-  {
-    variants: {
-      variant: {
-        active: "h-5 w-5 bg-primary-500",
-        inactive: "h-4 w-4 bg-primary-200",
-      },
+const dotVariants = cva("shrink-0 rounded-full transition-all duration-300", {
+  variants: {
+    variant: {
+      active: "h-5 w-5 bg-primary-500",
+      inactive: "h-4 w-4 bg-primary-200",
     },
-    defaultVariants: {
-      variant: "inactive",
-    },
-  }
-);
+  },
+  defaultVariants: {
+    variant: "inactive",
+  },
+});
 
-export interface ProgressIndicatorProps extends React.HTMLAttributes<HTMLDivElement> {
+export interface ProgressIndicatorProps
+  extends React.HTMLAttributes<HTMLDivElement> {
   totalSlides: number;
   activeIndex: number;
   onDotClick: (index: number) => void;

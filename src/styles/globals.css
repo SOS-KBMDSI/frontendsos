@@ -116,7 +116,8 @@
   }
   to {
     height: 0px;
-  }
+  }}
+  
 .bg-navbar {
   background: linear-gradient(90deg, #9C0221 0%, rgba(156, 2, 33, 0.90) 24.51%, #9C0221 50.21%, rgba(156, 2, 33, 0.90) 77.2%, #9C0221 100%);
 }
