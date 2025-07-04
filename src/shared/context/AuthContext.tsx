@@ -164,7 +164,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     return () => {
       mountedRef.current = false;
     };
-  }, [pathname]);
+  }, [pathname, fetchCurrentUser]);
 
   const refetch = useCallback(async (): Promise<void> => {
     if (!mountedRef.current) return;
