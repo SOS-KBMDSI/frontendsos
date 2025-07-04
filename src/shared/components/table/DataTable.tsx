@@ -13,6 +13,7 @@ interface DataTableProps<TData> {
   refresh: () => void;
   title: string;
   searchPlaceholder: string;
+  hideSearchInput?: boolean;
 }
 
 export const DataTable = <TData,>({
@@ -21,6 +22,7 @@ export const DataTable = <TData,>({
   error,
   title,
   searchPlaceholder,
+  hideSearchInput = false,
 }: DataTableProps<TData>) => {
   if (isLoading) {
     return (
@@ -41,18 +43,20 @@ export const DataTable = <TData,>({
 
   return (
     <div className="mt-12">
-      <div className="relative w-1/3">
-        <Input
-          className="text-base w-full mb-14 pl-10"
-          variant={"default"}
-          value={(table.getState().globalFilter as string) ?? ""}
-          onChange={(e) => table.setGlobalFilter(e.target.value)}
-          placeholder={searchPlaceholder}
-        />
-        <Search className="absolute left-3 top-3 h-5 w-5 text-gray-400" />
-      </div>
+      {!hideSearchInput && (
+        <div className="relative w-1/3">
+          <Input
+            className="text-base w-full mb-14 pl-10"
+            variant={"default"}
+            value={(table.getState().globalFilter as string) ?? ""}
+            onChange={(e) => table.setGlobalFilter(e.target.value)}
+            placeholder={searchPlaceholder}
+          />
+          <Search className="absolute left-3 top-3 h-5 w-5 text-gray-400" />
+        </div>
+      )}
 
-      <div className="bg-white w-full  rounded-2xl shadow-xl">
+      <div className="bg-white w-full  rounded-2xl shadow-xl overflow-hidden">
         <div className="flex justify-between items-center border-b px-6 pb-6 border-b-black">
           <h4 className="text-2xl pt-6 font-bold text-primary-500">{title}</h4>
           <span className="text-sm font-medium text-primary-500">
@@ -68,7 +72,7 @@ export const DataTable = <TData,>({
                   {headerGroup.headers.map((header) => (
                     <th
                       key={header.id}
-                      className="py-3 px-6"
+                      className="py-4 px-6"
                       style={{ width: header.getSize() }}
                     >
                       <div>
@@ -91,7 +95,7 @@ export const DataTable = <TData,>({
                   {row.getVisibleCells().map((cell) => (
                     <td
                       key={cell.id}
-                      className="py-4 px-6 font-medium text-gray-900"
+                      className="py-4 px-6 text-gray-900"
                       style={{ width: cell.column.getSize() }}
                     >
                       {flexRender(
@@ -107,7 +111,7 @@ export const DataTable = <TData,>({
         </div>
       </div>
 
-      <div className="pagination-controls mt-4 flex justify-end gap-10">
+      <div className="pagination-controls mt-6 flex justify-end gap-10">
         <Button
           arrow="left"
           onClick={() => table.previousPage()}

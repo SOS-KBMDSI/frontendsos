@@ -17,7 +17,7 @@ const SelectTrigger = forwardRef<
   <SelectPrimitive.Trigger
     ref={ref}
     className={cn(
-      "group flex h-12 w-full items-center justify-between rounded-lg border-2 bg-white px-4 py-2 text-sm",
+      "group flex h-12 w-full items-center justify-between rounded-lg border-1 bg-white px-4 py-2 text-sm",
       "transition-colors focus:outline-none focus:ring-2 focus:ring-secondary-600 focus:ring-offset-2",
       "disabled:cursor-not-allowed disabled:opacity-50",
       "border-default-dark/50 hover:bg-default-dark/10 hover:border-default-dark/50",
